@@ -9,9 +9,9 @@ void	ft_sa(t_stack **stack_a, int flag)
 	if (*stack_a == NULL)
 		return ;
 	n1 = *stack_a;
-	if (n1 -> next == NULL)
-		return ;
 	n2 = n1->next;
+	if (n1 == n2)		/* only one element in circular list */
+		return ;
 	temp = n1->content;
 	n1->content = n2->content;
 	n2->content = temp;
@@ -31,9 +31,9 @@ void	ft_sb(t_stack **stack_b, int flag)
 	if (*stack_b == NULL)
 		return ;
 	n1 = *stack_b;
-	if (n1 -> next == NULL)
-		return ;
 	n2 = n1->next;
+	if (n1 == n2)
+		return ;
 	temp = n1->content;
 	n1->content = n2->content;
 	n2->content = temp;

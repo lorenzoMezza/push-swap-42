@@ -5,7 +5,6 @@ int	ft_array_handling(int argc, char *argv[], int *arr, t_stack **stack_a)
 	int	i;
 
 	i = 0;
-	
 	while (i < argc - 1)
 	{
 		arr[i] = ft_atoi(argv[i + 1]);
@@ -18,7 +17,7 @@ int	ft_array_handling(int argc, char *argv[], int *arr, t_stack **stack_a)
 	}
 	ft_convert_stack(arr, stack_a, argc - 1);
 	ft_sort_arr(arr, argc - 1);
-	ft_add_order(arr, *stack_a, argc-1);
+	ft_add_order(arr, *stack_a, argc - 1);
 	return (1);
 }
 
@@ -49,7 +48,7 @@ void	ft_sort_arr(int *arr, int size)
 
 void	ft_add_order(int *arr, t_stack *stack_a, int size)
 {
-	int	i;
+	int		i;
 	t_stack	*temp;
 
 	temp = stack_a;

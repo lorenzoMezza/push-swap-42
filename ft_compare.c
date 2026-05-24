@@ -1,6 +1,11 @@
 #include "push_swap.h"
 
-void	ft_compare_append(int pos, int spot, int *total)
+/*
+** Returns the absolute cost when both rotations go in the same direction
+** (they can be combined with rr/rrr).
+** Takes the larger of the two since they run simultaneously.
+*/
+static void	ft_compare_append(int pos, int spot, int *total)
 {
 	if ((pos > 0 && pos > spot) || (pos < 0 && pos < spot))
 		(*total) = pos;
@@ -8,7 +13,11 @@ void	ft_compare_append(int pos, int spot, int *total)
 		(*total) = spot;
 }
 
-void	ft_compare_two(int pos_2, int spot_2, int *total_2)
+/*
+** Returns the absolute cost when rotations go in opposite directions
+** (they must run sequentially, so costs add up).
+*/
+static void	ft_compare_two(int pos_2, int spot_2, int *total_2)
 {
 	if ((pos_2 > 0 && pos_2 > spot_2) || (pos_2 < 0 && pos_2 < spot_2))
 		(*total_2) = pos_2;
@@ -16,16 +25,20 @@ void	ft_compare_two(int pos_2, int spot_2, int *total_2)
 		(*total_2) = spot_2;
 }
 
-int	ft_compare(int	pos, int spot, int	pos_2, int spot_2)
+/*
+** Compares the total cost of two candidates.
+** Returns 1 if candidate 2 (pos_2, spot_2) is cheaper than candidate 1.
+*/
+int	ft_compare(int pos, int spot, int pos_2, int spot_2)
 {
 	int	total;
 	int	total_2;
 
-	if ((pos > 0 && spot > 0)|| (pos < 0 && spot < 0))
-		ft_compare_append(pos,spot, &total);
+	if ((pos > 0 && spot > 0) || (pos < 0 && spot < 0))
+		ft_compare_append(pos, spot, &total);
 	else
 		total = (spot * -1) + pos;
-	if ((pos_2 > 0 && spot_2 > 0)|| (pos_2 < 0 && spot_2 < 0))
+	if ((pos_2 > 0 && spot_2 > 0) || (pos_2 < 0 && spot_2 < 0))
 		ft_compare_two(pos_2, spot_2, &total_2);
 	else
 		total_2 = (spot_2 * -1) + pos_2;
@@ -34,6 +47,6 @@ int	ft_compare(int	pos, int spot, int	pos_2, int spot_2)
 	if (total_2 < 0)
 		total_2 *= -1;
 	if (total_2 < total)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }

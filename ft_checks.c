@@ -2,9 +2,9 @@
 
 int	ft_check_order(t_stack *stack, int size)
 {
-	int	i;
+	int		i;
 	t_stack	*check;
-	
+
 	check = stack;
 	i = 0;
 	while (i < size)
@@ -40,31 +40,41 @@ int	ft_check_double(int *arr, int size)
 	return (1);
 }
 
-int	ft_write_err()
+int	ft_write_err(void)
 {
-	write (2, "Error\n", 6);
-	return(0);
+	write(2, "Error\n", 6);
+	return (0);
 }
 
+/*
+** Validates that every argument is a valid integer string.
+** Also checks for INT overflow by comparing length against 11 chars
+** (max digits of INT_MAX/INT_MIN with sign).
+*/
 int	ft_check_errors(int argc, char *argv[])
 {
 	int	i;
 	int	j;
+	int	len;
 
 	i = 1;
 	while (i < argc)
 	{
 		j = 0;
-		if (argv[i][j] == '-')
+		if (argv[i][j] == '-' || argv[i][j] == '+')
 			j++;
 		if (argv[i][j] == '\0')
-			return(ft_write_err());
+			return (ft_write_err());
+		len = j;
 		while (argv[i][j])
 		{
 			if (ft_isdigit(argv[i][j]) == 0)
 				return (ft_write_err());
 			j++;
 		}
+		/* more than 10 digits (excluding sign) -> overflow */
+		if (j - len > 10)
+			return (ft_write_err());
 		i++;
 	}
 	return (1);
