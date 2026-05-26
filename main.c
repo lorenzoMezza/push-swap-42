@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static void	ft_main_app(int argc, t_stack **stack_a, t_stack **stack_b)
+static void	ft_main_sort(int argc, t_stack **stack_a, t_stack **stack_b)
 {
 	if (argc - 1 <= 4)
 		ft_sort_few(stack_a, stack_b, argc - 1);
@@ -24,10 +24,15 @@ int	main(int argc, char *argv[])
 	if (!arr)
 		return (0);
 	if (ft_array_handling(argc, argv, arr, &stack_a) == 0)
+	{
+		free(arr);
 		return (0);
-	if (ft_check_order(stack_a, argc - 1) == 0)
-		ft_main_app(argc, &stack_a, &stack_b);
-	ft_free_stack(&stack_a, ft_lst_count(stack_a));
+	}
 	free(arr);
+	if (ft_check_order(stack_a, argc - 1) == 0)
+		ft_main_sort(argc, &stack_a, &stack_b);
+	ft_free_stack(&stack_a, ft_lst_count(stack_a));
+	if (stack_b)
+		ft_free_stack(&stack_b, ft_lst_count(stack_b));
 	return (0);
 }

@@ -1,32 +1,37 @@
 #include "push_swap.h"
 
 /*
-** Returns the absolute cost when both rotations go in the same direction
-** (they can be combined with rr/rrr).
-** Takes the larger of the two since they run simultaneously.
+** When both rotations go the same direction they run simultaneously,
+** so the total cost is the larger of the two.
 */
-static void	ft_compare_append(int pos, int spot, int *total)
+static int	ft_cost_same_dir(int pos, int spot)
 {
-	if ((pos > 0 && pos > spot) || (pos < 0 && pos < spot))
-		(*total) = pos;
-	else
-		(*total) = spot;
+	if ((pos > spot && pos > 0) || (pos < spot && pos < 0))
+		return (pos);
+	return (spot);
 }
 
 /*
-** Returns the absolute cost when rotations go in opposite directions
-** (they must run sequentially, so costs add up).
+** When rotations go in opposite directions they run sequentially,
+** so costs add up (both are stored as absolute values here after sign flip).
 */
-static void	ft_compare_two(int pos_2, int spot_2, int *total_2)
+static int	ft_cost_opp_dir(int pos, int spot)
 {
-	if ((pos_2 > 0 && pos_2 > spot_2) || (pos_2 < 0 && pos_2 < spot_2))
-		(*total_2) = pos_2;
-	else
-		(*total_2) = spot_2;
+	if (pos < 0)
+		pos *= -1;
+	if (spot < 0)
+		spot *= -1;
+	return (pos + spot);
+}
+
+static int	ft_abs(int n)
+{
+	if (n < 0)
+		return (n * -1);
+	return (n);
 }
 
 /*
-** Compares the total cost of two candidates.
 ** Returns 1 if candidate 2 (pos_2, spot_2) is cheaper than candidate 1.
 */
 int	ft_compare(int pos, int spot, int pos_2, int spot_2)
@@ -34,18 +39,14 @@ int	ft_compare(int pos, int spot, int pos_2, int spot_2)
 	int	total;
 	int	total_2;
 
-	if ((pos > 0 && spot > 0) || (pos < 0 && spot < 0))
-		ft_compare_append(pos, spot, &total);
+	if ((pos >= 0 && spot >= 0) || (pos <= 0 && spot <= 0))
+		total = ft_abs(ft_cost_same_dir(pos, spot));
 	else
-		total = (spot * -1) + pos;
-	if ((pos_2 > 0 && spot_2 > 0) || (pos_2 < 0 && spot_2 < 0))
-		ft_compare_two(pos_2, spot_2, &total_2);
+		total = ft_cost_opp_dir(pos, spot);
+	if ((pos_2 >= 0 && spot_2 >= 0) || (pos_2 <= 0 && spot_2 <= 0))
+		total_2 = ft_abs(ft_cost_same_dir(pos_2, spot_2));
 	else
-		total_2 = (spot_2 * -1) + pos_2;
-	if (total < 0)
-		total *= -1;
-	if (total_2 < 0)
-		total_2 *= -1;
+		total_2 = ft_cost_opp_dir(pos_2, spot_2);
 	if (total_2 < total)
 		return (1);
 	return (0);

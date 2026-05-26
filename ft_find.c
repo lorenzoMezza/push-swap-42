@@ -2,16 +2,14 @@
 
 int	ft_find_index(t_stack *stack, t_stack *to_find, int size)
 {
-	int		i;
-	t_stack	*current;
+	int	i;
 
 	i = 0;
-	current = stack;
 	while (i < size)
 	{
-		if (current == to_find)
+		if (stack == to_find)
 			return (i);
-		current = current->next;
+		stack = stack->next;
 		i++;
 	}
 	return (i);
@@ -19,17 +17,17 @@ int	ft_find_index(t_stack *stack, t_stack *to_find, int size)
 
 t_stack	*ft_find_biggest(t_stack *stack, int size)
 {
-	int		loop;
 	t_stack	*current;
 	t_stack	*biggest;
+	int		loop;
 
-	loop = 1;
 	current = stack;
 	biggest = current;
+	loop = 1;
 	while (loop < size)
 	{
 		current = current->next;
-		if (biggest->index < current->index)
+		if (current->index > biggest->index)
 			biggest = current;
 		loop++;
 	}
@@ -38,17 +36,17 @@ t_stack	*ft_find_biggest(t_stack *stack, int size)
 
 t_stack	*ft_find_smallest(t_stack *stack, int size)
 {
-	int		loop;
 	t_stack	*current;
 	t_stack	*smallest;
+	int		loop;
 
-	loop = 1;
 	current = stack;
 	smallest = current;
+	loop = 1;
 	while (loop < size)
 	{
 		current = current->next;
-		if (smallest->index > current->index)
+		if (current->index < smallest->index)
 			smallest = current;
 		loop++;
 	}

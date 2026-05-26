@@ -6,8 +6,8 @@
 */
 int	ft_position(t_stack *current, t_stack *stack_a, int size)
 {
-	int		i;
 	t_stack	*checking;
+	int		i;
 
 	i = 0;
 	checking = stack_a;
